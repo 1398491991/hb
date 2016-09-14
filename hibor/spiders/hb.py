@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import MySQLdb
-from ..settings import DB_CONFIG,DEFAULT_START_PAGE,CONTINUOUS_PAGE
+from ..settings import DB_CONFIG,CONTINUOUS_PAGE
 from ..items import HiborItem
-from .cfg import SpiderConfig
+from ..cfg import SpiderConfig
 import re
 import logging
 
@@ -21,12 +21,19 @@ class HbSpider(scrapy.Spider):
     cur=conn.cursor()
 
     cur.execute('SELECT max(source_link_id) from urls_status')
-    start_page=cur.fetchone()
+    cur_start_page=cur.fetchone()
 
-    start_page = start_page[0] if start_page else DEFAULT_START_PAGE
+    config_start_page = scfg_dicts.get('start_page')
+    try:
+        continuous_page = int(scfg_dicts['continuous_page'])
+    except:
+        logging.warn('local_settings.ini continuous_page key not found')
+        continuous_page = CONTINUOUS_PAGE
 
-
-    continuous_page = CONTINUOUS_PAGE #持续为空  停止爬取
+    if config_start_page and config_start_page>0:
+        start_page = int(config_start_page)
+    else:
+        start_page = cur_start_page[0]
 
 
 
@@ -37,6 +44,8 @@ class HbSpider(scrapy.Spider):
     def parse(self, response):
         if not response.text.strip():# 爬虫被屏蔽了
             self.log(u'shield',logging.warn)
+            HbSpider.scfg.update(HbSpider.config_start_page,HbSpider.start_page,0)
+
         else:
             title=response.xpath('//div[@class="leftn2"]//h1/span/text()').extract_first()
             source_url=response.url
@@ -79,8 +88,9 @@ class HbSpider(scrapy.Spider):
             if HbSpider.continuous_page>0:
                 HbSpider.start_page += 1
                 yield scrapy.Request(HbSpider.base_url%HbSpider.start_page,)
-            else:
-                pass
+            else:# 本次爬去完毕
+                HbSpider.scfg.update('','',1)
+
 
 
 

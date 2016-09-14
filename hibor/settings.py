@@ -11,9 +11,10 @@
 
 
 # my settings
+import os
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DEFAULT_START_PAGE=100 # 开始抓取的页面
-CONTINUOUS_PAGE=100 # 连续这么多页面没有  就不抓取了
+CONTINUOUS_PAGE=2 # 连续这么多页面没有  就不抓取了
 
 DB_CONFIG={
     'host':'localhost',
