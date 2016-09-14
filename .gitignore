@@ -1,0 +1,9 @@
+*.pyc
+*.txt
+*.csv
+*.xls*
+.idea/
+.ipynb_checkpoints/
+*.ipynb
+*.zip
+*.log
