@@ -20,7 +20,7 @@ class HiborPipeline(object):
 
 
     def insert_db(self,item,spider):
-
+        conn,cur = item['co']
         sql=u"INSERT INTO urls_status(create_time,update_time,source_link_id,retry_count,is_retry,url_type) " \
             u"VALUES(%s,%s,%s,%s,%s,%s)"
         insert_data=[datetime.now(),datetime.now(),
@@ -34,9 +34,9 @@ class HiborPipeline(object):
                     u"attention_rate,attachment_size,provider,abstract) " \
                     u"VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
         insert_data_company_survey=(datetime.now(),datetime.now(),item['title'],item['source_link_id'],item['source_url'],item['stock_name'],
-                                    data['stock_num'],data['share_time'],item['paper_column'],
-                     data['paper_type'],data['researcher'],data['institution'],item['page_sum'],item['attention_rate'],data['attachment_size'],
-                     data['provider'],data['abstract'])
+                                    item['stock_num'],item['share_time'],item['paper_column'],
+                     item['paper_type'],item['researcher'],item['institution'],item['page_sum'],item['attention_rate'],data['attachment_size'],
+                     item['provider'],item['abstract'])
 
         try:
             cur.execute(sql_company_survey,insert_data_company_survey)

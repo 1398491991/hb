@@ -82,7 +82,7 @@ class HbSpider(scrapy.Spider):
                 item['attachment_size']=attachment_size
                 item['provider']=provider
                 item['abstract']=abstract
-                item['conn'] = HbSpider.conn
+                item['co'] = (HbSpider.conn,HbSpider.cur)
                 yield item
 
             if HbSpider.continuous_page>0:
