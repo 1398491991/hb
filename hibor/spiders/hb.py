@@ -69,7 +69,7 @@ class HbSpider(HbBaseSpider):
             item['attachment_size']=attachment_size
             item['provider']=provider
             item['abstract']=abstract
-            item['co'] = (self.conn,self.cur)
+            item['co'] = (HbBaseSpider.conn,HbBaseSpider.cur)
             item['source_link_id']=self.start_page
             item['is_retry']=0 if share_time else 1
 

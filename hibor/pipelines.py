@@ -83,8 +83,7 @@ class HiborPipeline(HiborBasePipeline):
                 conn.rollback()
                 logging.error('insert db error : %s  , %s'%(item['source_link_id'],e))
 
-            finally:
-                return item
+        return item
 
 
 
@@ -110,5 +109,4 @@ class HiborRollBackPipeline(HiborBasePipeline):
                 conn.rollback()
                 logging.error('update db error : %s  , %s'%(item['source_link_id'],e))
 
-            finally:
-                return item
+        return item

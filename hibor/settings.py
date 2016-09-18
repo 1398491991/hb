@@ -125,7 +125,7 @@ ROBOTSTXT_OBEY = True
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'hibor.pipelines.HiborPipeline': 300,
-   'hibor.pipelines.HiborRollBackPipeline': None,
+   'hibor.pipelines.HiborRollBackPipeline': 200,
 
 }
 

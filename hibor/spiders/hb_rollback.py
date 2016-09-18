@@ -62,5 +62,5 @@ class HbRollbackSpider(HbBaseSpider):
             item['attachment_size']=attachment_size
             item['provider']=provider
             item['abstract']=abstract
-            item['co'] = (self.conn,self.cur)
+            item['co'] = (HbBaseSpider.conn,HbBaseSpider.cur)
             yield item
