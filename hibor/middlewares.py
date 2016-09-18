@@ -52,7 +52,7 @@ class RetryMiddleware(object):
         if request.meta.get('dont_retry', False):
             return response
         if response.status in self.retry_http_codes:
-            response.status=200
+            response.status=200 # 强行更改响应状态码
             return response
         return response
 

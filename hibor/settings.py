@@ -14,7 +14,11 @@
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-CONTINUOUS_PAGE=2 # 连续这么多页面没有  就不抓取了
+STEP_PAGE=20
+
+fetch_sql = """SELECT source_link_id,retry_count from urls_status WHERE is_retry=1"""
+# 更新url的sql语句  可以根据不同需要进行更改  但是 查询的结果一定是 source_link_id,retry_count 两个字段
+# 只是  where 的 条件可以变 例如可以根据重试次数  时间  等等条件
 
 DB_CONFIG={
     'host':'localhost',
@@ -119,9 +123,11 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'hibor.pipelines.SomePipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'hibor.pipelines.HiborPipeline': 300,
+   'hibor.pipelines.HiborRollBackPipeline': None,
+
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See http://doc.scrapy.org/en/latest/topics/autothrottle.html

@@ -27,5 +27,13 @@ class HiborItem(scrapy.Item):
     abstract=scrapy.Field() # 摘要
     # 暂无# pdf_url=scrapy.Field()# 研报PDF url
 
-    # conn
-    conn = scrapy.Field()
+    # co 数据库连接
+    co = scrapy.Field()
+    # 新加的
+    source_link_id=scrapy.Field()
+    retry_count=scrapy.Field()
+    is_retry=scrapy.Field()
+    url_type=scrapy.Field()
+
+class HiborRollbackItem(HiborItem):
+    pass
